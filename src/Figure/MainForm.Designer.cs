@@ -31,7 +31,7 @@ partial class MainForm
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.TransformationTable = new System.Windows.Forms.DataGridView();
             this.Typename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Pattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Replacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,7 +41,10 @@ partial class MainForm
             this.Step = new System.Windows.Forms.ToolStripButton();
             this.Start = new System.Windows.Forms.ToolStripButton();
             this.textEditBox = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.Progress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.MainMenuStart = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,13 +59,16 @@ partial class MainForm
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TransformationTable)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,6 +86,7 @@ partial class MainForm
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textEditBox);
+            this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(1161, 502);
             this.splitContainer1.SplitterDistance = 387;
             this.splitContainer1.TabIndex = 0;
@@ -88,7 +95,7 @@ partial class MainForm
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.TransformationTable, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -99,38 +106,42 @@ partial class MainForm
             this.tableLayoutPanel1.Size = new System.Drawing.Size(383, 498);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // dataGridView1
+            // TransformationTable
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.TransformationTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TransformationTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Typename,
             this.Pattern,
             this.Replacement});
-            this.tableLayoutPanel1.SetColumnSpan(this.dataGridView1, 2);
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(377, 467);
-            this.dataGridView1.TabIndex = 0;
+            this.tableLayoutPanel1.SetColumnSpan(this.TransformationTable, 2);
+            this.TransformationTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TransformationTable.Location = new System.Drawing.Point(3, 3);
+            this.TransformationTable.Name = "TransformationTable";
+            this.TransformationTable.RowTemplate.Height = 25;
+            this.TransformationTable.Size = new System.Drawing.Size(377, 467);
+            this.TransformationTable.TabIndex = 0;
             // 
             // Typename
             // 
+            this.Typename.DataPropertyName = "TypeName";
             this.Typename.HeaderText = "";
             this.Typename.Name = "Typename";
             // 
             // Pattern
             // 
+            this.Pattern.DataPropertyName = "Pattern";
             this.Pattern.HeaderText = "Pattern";
             this.Pattern.Name = "Pattern";
             // 
             // Replacement
             // 
+            this.Replacement.DataPropertyName = "Replacement";
             this.Replacement.HeaderText = "Replacement";
             this.Replacement.Name = "Replacement";
             // 
             // toolStrip1
             // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddTransformation,
             this.RemoveTransformation,
@@ -181,6 +192,7 @@ partial class MainForm
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(23, 22);
             this.Start.Text = "Start";
+            this.Start.Click += new System.EventHandler(this.Start_Click);
             // 
             // textEditBox
             // 
@@ -188,16 +200,45 @@ partial class MainForm
             this.textEditBox.Location = new System.Drawing.Point(0, 0);
             this.textEditBox.Multiline = true;
             this.textEditBox.Name = "textEditBox";
-            this.textEditBox.Size = new System.Drawing.Size(766, 498);
+            this.textEditBox.Size = new System.Drawing.Size(766, 476);
             this.textEditBox.TabIndex = 0;
+            this.textEditBox.TextChanged += new System.EventHandler(this.textEditBox_TextChanged);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Progress});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 476);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(766, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // Progress
+            // 
+            this.Progress.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Progress.Name = "Progress";
+            this.Progress.Size = new System.Drawing.Size(200, 16);
             // 
             // toolStrip2
             // 
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MainMenuStart});
             this.toolStrip2.Location = new System.Drawing.Point(0, 24);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(1161, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
+            // 
+            // MainMenuStart
+            // 
+            this.MainMenuStart.Image = ((System.Drawing.Image)(resources.GetObject("MainMenuStart.Image")));
+            this.MainMenuStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MainMenuStart.Name = "MainMenuStart";
+            this.MainMenuStart.Size = new System.Drawing.Size(51, 22);
+            this.MainMenuStart.Text = "Start";
+            this.MainMenuStart.Click += new System.EventHandler(this.Start_Click);
             // 
             // menuStrip1
             // 
@@ -240,6 +281,7 @@ partial class MainForm
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.openToolStripMenuItem.Text = "&Open Text File...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -304,6 +346,10 @@ partial class MainForm
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -322,9 +368,13 @@ partial class MainForm
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TransformationTable)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -336,7 +386,7 @@ partial class MainForm
 
     private SplitContainer splitContainer1;
     private TextBox textEditBox;
-    private DataGridView dataGridView1;
+    private DataGridView TransformationTable;
     private TableLayoutPanel tableLayoutPanel1;
     private ToolStrip toolStrip1;
     private ToolStripButton AddTransformation;
@@ -356,9 +406,13 @@ partial class MainForm
     private ToolStripMenuItem saveTransformationListAsToolStripMenuItem;
     private ToolStripSeparator toolStripSeparator1;
     private ToolStripMenuItem exitToolStripMenuItem;
+    private ToolStripMenuItem helpToolStripMenuItem;
+    private ToolStripMenuItem aboutToolStripMenuItem;
     private DataGridViewTextBoxColumn Typename;
     private DataGridViewTextBoxColumn Pattern;
     private DataGridViewTextBoxColumn Replacement;
-    private ToolStripMenuItem helpToolStripMenuItem;
-    private ToolStripMenuItem aboutToolStripMenuItem;
+    private ToolStripButton MainMenuStart;
+    private StatusStrip statusStrip1;
+    private ToolStripProgressBar Progress;
+    private System.ComponentModel.BackgroundWorker backgroundWorker1;
 }

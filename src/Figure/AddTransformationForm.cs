@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Figure
+﻿namespace Figure
 {
     public partial class AddTransformationForm : Form
     {
@@ -16,7 +6,7 @@ namespace Figure
 
         public AddTransformationForm()
         {
-            InitializeComponent();            
+            InitializeComponent();
             TypeDropdown.Items.Add(new SimpleReplaceTransformation());
             TypeDropdown.Items.Add(new RegexTransformation());
             TypeDropdown.Items.Add(new LeadingCapitalTransformation());
@@ -25,7 +15,17 @@ namespace Figure
 
         private void TypeDropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Replacement.Enabled = (TypeDropdown.SelectedItem as ITransformation).UseReplacementProperty;
+            if (TypeDropdown.SelectedItem != null)
+            {
+                var SelectedItem = TypeDropdown.SelectedItem as ITransformation;
+                Replacement.Enabled = SelectedItem.UseReplacementProperty;
+                OK.Enabled = true;
+                HelpText.Text = SelectedItem.HelpText;
+            }
+            else
+            {
+                OK.Enabled = false;
+            }
         }
 
         private void OK_Click(object sender, EventArgs e)

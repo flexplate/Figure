@@ -1,24 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Figure
+﻿namespace Figure
 {
     public interface ITransformation
     {
+        #region Fields
+
+        private static string helpText;
         private static string typeName;
-        private static bool useReplacementProperty { get; }
+        private static bool useReplacementProperty;
 
-        public bool UseReplacementProperty { get; }
-        public string TypeName { get; }
+        #endregion Fields
 
+        #region Properties
 
+        public string HelpText { get; }
         public string Pattern { get; set; }
         public string Replacement { get; set; }
+        public string TypeName { get; }
+        public bool UseReplacementProperty { get; }
+        public bool Applied { get; set; }
 
-        public string Transform(string input); 
+        #endregion Properties
 
+        #region Methods
+
+        public string Transform(string input);
+
+        #endregion Methods
     }
 }

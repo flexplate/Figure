@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics.Eventing.Reader;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Figure
 {
     public class LeadingCapitalTransformation : ITransformation
     {
-        private static string typeName => "Initial leading capital case transformation";
-        private static bool useReplacementProperty => false;
+        private static string typeName = "Initial leading capital case transformation";
+        private static string helpText = "All strings matching the regular expression pattern will be transformed to title case.";
+        private static bool useReplacementProperty = false;
+        
 
         public virtual bool UseReplacementProperty => useReplacementProperty;
         public virtual string TypeName => typeName;
+        public virtual string HelpText => helpText;
+
+        public bool Applied { get; set; }
         public string Pattern { get; set; }
 
         /// <summary>
@@ -23,7 +25,8 @@ namespace Figure
 
         public string Transform(string input)
         {
-            throw new NotImplementedException();
+            var TI = new CultureInfo(CultureInfo.InvariantCulture.LCID, false).TextInfo;
+            return Regex.Replace(input, Pattern, match => TI.ToTitleCase(match.ToString()));
         }
     }
 }

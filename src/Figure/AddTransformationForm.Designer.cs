@@ -36,6 +36,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.Cancel = new System.Windows.Forms.Button();
             this.OK = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.HelpText = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TypeDropdown
@@ -90,7 +93,7 @@
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(93, 99);
+            this.Cancel.Location = new System.Drawing.Point(93, 185);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(130, 23);
             this.Cancel.TabIndex = 6;
@@ -100,7 +103,8 @@
             // 
             // OK
             // 
-            this.OK.Location = new System.Drawing.Point(229, 99);
+            this.OK.Enabled = false;
+            this.OK.Location = new System.Drawing.Point(229, 185);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(130, 23);
             this.OK.TabIndex = 7;
@@ -108,13 +112,31 @@
             this.OK.UseVisualStyleBackColor = true;
             this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.HelpText);
+            this.groupBox1.Location = new System.Drawing.Point(12, 99);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(347, 80);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Help";
+            // 
+            // HelpText
+            // 
+            this.HelpText.Location = new System.Drawing.Point(6, 19);
+            this.HelpText.Name = "HelpText";
+            this.HelpText.Size = new System.Drawing.Size(335, 58);
+            this.HelpText.TabIndex = 0;
+            // 
             // AddTransformationForm
             // 
             this.AcceptButton = this.OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
-            this.ClientSize = new System.Drawing.Size(374, 135);
+            this.ClientSize = new System.Drawing.Size(374, 220);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.OK);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.label3);
@@ -128,6 +150,7 @@
             this.MinimizeBox = false;
             this.Name = "AddTransformationForm";
             this.Text = "Add Transformation";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,5 +166,7 @@
         private Label label3;
         private Button Cancel;
         private Button OK;
+        private GroupBox groupBox1;
+        private Label HelpText;
     }
 }

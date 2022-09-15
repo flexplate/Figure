@@ -32,9 +32,6 @@ partial class MainForm
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TransformationTable = new System.Windows.Forms.DataGridView();
-            this.Typename = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Pattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Replacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AddTransformation = new System.Windows.Forms.ToolStripButton();
             this.RemoveTransformation = new System.Windows.Forms.ToolStripButton();
@@ -60,6 +57,11 @@ partial class MainForm
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.MainMenuStep = new System.Windows.Forms.ToolStripButton();
+            this.Typename = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Pattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Replacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Applied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -112,7 +114,8 @@ partial class MainForm
             this.TransformationTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Typename,
             this.Pattern,
-            this.Replacement});
+            this.Replacement,
+            this.Applied});
             this.tableLayoutPanel1.SetColumnSpan(this.TransformationTable, 2);
             this.TransformationTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransformationTable.Location = new System.Drawing.Point(3, 3);
@@ -120,24 +123,6 @@ partial class MainForm
             this.TransformationTable.RowTemplate.Height = 25;
             this.TransformationTable.Size = new System.Drawing.Size(377, 467);
             this.TransformationTable.TabIndex = 0;
-            // 
-            // Typename
-            // 
-            this.Typename.DataPropertyName = "TypeName";
-            this.Typename.HeaderText = "";
-            this.Typename.Name = "Typename";
-            // 
-            // Pattern
-            // 
-            this.Pattern.DataPropertyName = "Pattern";
-            this.Pattern.HeaderText = "Pattern";
-            this.Pattern.Name = "Pattern";
-            // 
-            // Replacement
-            // 
-            this.Replacement.DataPropertyName = "Replacement";
-            this.Replacement.HeaderText = "Replacement";
-            this.Replacement.Name = "Replacement";
             // 
             // toolStrip1
             // 
@@ -182,6 +167,7 @@ partial class MainForm
             this.Step.Name = "Step";
             this.Step.Size = new System.Drawing.Size(23, 22);
             this.Step.Text = "Step";
+            this.Step.Click += new System.EventHandler(this.Step_Click);
             // 
             // Start
             // 
@@ -197,6 +183,7 @@ partial class MainForm
             // textEditBox
             // 
             this.textEditBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textEditBox.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textEditBox.Location = new System.Drawing.Point(0, 0);
             this.textEditBox.Multiline = true;
             this.textEditBox.Name = "textEditBox";
@@ -224,7 +211,8 @@ partial class MainForm
             // 
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MainMenuStart});
+            this.MainMenuStart,
+            this.MainMenuStep});
             this.toolStrip2.Location = new System.Drawing.Point(0, 24);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(1161, 25);
@@ -289,6 +277,7 @@ partial class MainForm
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.saveToolStripMenuItem.Text = "&Save Text File";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -297,6 +286,7 @@ partial class MainForm
             | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.saveAsToolStripMenuItem.Text = "Save Text File &As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -349,6 +339,39 @@ partial class MainForm
             // backgroundWorker1
             // 
             this.backgroundWorker1.WorkerReportsProgress = true;
+            // 
+            // MainMenuStep
+            // 
+            this.MainMenuStep.Image = ((System.Drawing.Image)(resources.GetObject("MainMenuStep.Image")));
+            this.MainMenuStep.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MainMenuStep.Name = "MainMenuStep";
+            this.MainMenuStep.Size = new System.Drawing.Size(98, 22);
+            this.MainMenuStep.Text = "Step Through";
+            this.MainMenuStep.Click += new System.EventHandler(this.Step_Click);
+            // 
+            // Typename
+            // 
+            this.Typename.DataPropertyName = "TypeName";
+            this.Typename.HeaderText = "";
+            this.Typename.Name = "Typename";
+            // 
+            // Pattern
+            // 
+            this.Pattern.DataPropertyName = "Pattern";
+            this.Pattern.HeaderText = "Pattern";
+            this.Pattern.Name = "Pattern";
+            // 
+            // Replacement
+            // 
+            this.Replacement.DataPropertyName = "Replacement";
+            this.Replacement.HeaderText = "Replacement";
+            this.Replacement.Name = "Replacement";
+            // 
+            // Applied
+            // 
+            this.Applied.HeaderText = "Applied";
+            this.Applied.Name = "Applied";
+            this.Applied.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -408,11 +431,13 @@ partial class MainForm
     private ToolStripMenuItem exitToolStripMenuItem;
     private ToolStripMenuItem helpToolStripMenuItem;
     private ToolStripMenuItem aboutToolStripMenuItem;
-    private DataGridViewTextBoxColumn Typename;
-    private DataGridViewTextBoxColumn Pattern;
-    private DataGridViewTextBoxColumn Replacement;
     private ToolStripButton MainMenuStart;
     private StatusStrip statusStrip1;
     private ToolStripProgressBar Progress;
     private System.ComponentModel.BackgroundWorker backgroundWorker1;
+    private ToolStripButton MainMenuStep;
+    private DataGridViewTextBoxColumn Typename;
+    private DataGridViewTextBoxColumn Pattern;
+    private DataGridViewTextBoxColumn Replacement;
+    private DataGridViewCheckBoxColumn Applied;
 }

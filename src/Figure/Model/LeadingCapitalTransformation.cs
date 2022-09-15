@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Eventing.Reader;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Figure
@@ -9,7 +8,6 @@ namespace Figure
         private static string typeName = "Initial leading capital case transformation";
         private static string helpText = "All strings matching the regular expression pattern will be transformed to title case.";
         private static bool useReplacementProperty = false;
-        
 
         public virtual bool UseReplacementProperty => useReplacementProperty;
         public virtual string TypeName => typeName;

@@ -10,10 +10,10 @@
         public virtual string TypeName => typeName;
         public virtual string HelpText => helpText;
 
-
         public bool Applied { get; set; }
         public string Pattern { get; set; }
         public string Replacement { get; set; }
+
         string ITransformation.Transform(string input)
         {
             return input.Replace(Pattern, Replacement);

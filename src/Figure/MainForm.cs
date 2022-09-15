@@ -87,7 +87,7 @@ public partial class MainForm : Form
         {
             dlg.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
             dlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
-            if (dlg.ShowDialog() == DialogResult.OK 
+            if (dlg.ShowDialog() == DialogResult.OK
                 && (!File.Exists(dlg.FileName) || MessageBox.Show($"Are you sure you wish to overwrite the file {dlg.FileName}?", "Warning", MessageBoxButtons.OKCancel) == DialogResult.OK))
             {
                 TextFilePath = dlg.FileName;

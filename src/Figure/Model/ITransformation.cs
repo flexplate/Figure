@@ -13,10 +13,11 @@
         #region Properties
 
         public string HelpText { get; }
-        public string Pattern { get; set; }
-        public string Replacement { get; set; }
         public string TypeName { get; }
         public bool UseReplacementProperty { get; }
+
+        public string Pattern { get; set; }
+        public string Replacement { get; set; }
         public bool Applied { get; set; }
 
         #endregion Properties

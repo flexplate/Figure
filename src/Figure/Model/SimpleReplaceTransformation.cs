@@ -1,5 +1,9 @@
-﻿namespace Figure
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
+
+namespace Figure
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class SimpleReplaceTransformation : ITransformation
     {
         private static string typeName = "Simple text replacement";
@@ -11,12 +15,18 @@
         public virtual string HelpText => helpText;
 
         public bool Applied { get; set; }
+
+        [JsonProperty]
         public string Pattern { get; set; }
+
+        [JsonProperty]
         public string Replacement { get; set; }
 
         string ITransformation.Transform(string input)
         {
             return input.Replace(Pattern, Replacement);
         }
+
+
     }
 }

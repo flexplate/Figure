@@ -11,8 +11,24 @@
 		<VersionRevisionPart>$([System.Convert]::ToUInt16($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds),2))))</VersionRevisionPart>
 		<AssemblyVersion Condition=" '$(VersionBuildPart)' == '' OR '$(VersionRevisionPart)' == ''">1.0.0.0</AssemblyVersion>
 		<AssemblyVersion Condition=" '$(VersionBuildPart)' != '' AND '$(VersionRevisionPart)' != ''">1.0.$(VersionBuildPart).$(VersionRevisionPart)</AssemblyVersion>
+    <Version Condition=" '$(VersionBuildPart)' != '' AND '$(VersionRevisionPart)' != ''">1.0.$(VersionBuildPart).$(VersionRevisionPart)</Version>
+    <Copyright>© 2022 Daniel Price and contibutors</Copyright>
+    <PackageProjectUrl>https://github.com/flexplate/figure</PackageProjectUrl>
+    <Description>For more information, visit https://github.com/flexplate/figure.</Description>
 
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

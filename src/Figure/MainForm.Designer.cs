@@ -32,6 +32,10 @@ partial class MainForm
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TransformationTable = new System.Windows.Forms.DataGridView();
+            this.Typename = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Pattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Replacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Applied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AddTransformation = new System.Windows.Forms.ToolStripButton();
             this.RemoveTransformation = new System.Windows.Forms.ToolStripButton();
@@ -41,7 +45,10 @@ partial class MainForm
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.Progress = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.MainMenuAdd = new System.Windows.Forms.ToolStripButton();
+            this.MainMenuRemove = new System.Windows.Forms.ToolStripButton();
             this.MainMenuStart = new System.Windows.Forms.ToolStripButton();
+            this.MainMenuStep = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,11 +64,6 @@ partial class MainForm
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.MainMenuStep = new System.Windows.Forms.ToolStripButton();
-            this.Typename = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Pattern = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Replacement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Applied = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -123,6 +125,30 @@ partial class MainForm
             this.TransformationTable.RowTemplate.Height = 25;
             this.TransformationTable.Size = new System.Drawing.Size(377, 467);
             this.TransformationTable.TabIndex = 0;
+            // 
+            // Typename
+            // 
+            this.Typename.DataPropertyName = "TypeName";
+            this.Typename.HeaderText = "";
+            this.Typename.Name = "Typename";
+            // 
+            // Pattern
+            // 
+            this.Pattern.DataPropertyName = "Pattern";
+            this.Pattern.HeaderText = "Pattern";
+            this.Pattern.Name = "Pattern";
+            // 
+            // Replacement
+            // 
+            this.Replacement.DataPropertyName = "Replacement";
+            this.Replacement.HeaderText = "Replacement";
+            this.Replacement.Name = "Replacement";
+            // 
+            // Applied
+            // 
+            this.Applied.HeaderText = "Applied";
+            this.Applied.Name = "Applied";
+            this.Applied.ReadOnly = true;
             // 
             // toolStrip1
             // 
@@ -211,6 +237,8 @@ partial class MainForm
             // 
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MainMenuAdd,
+            this.MainMenuRemove,
             this.MainMenuStart,
             this.MainMenuStep});
             this.toolStrip2.Location = new System.Drawing.Point(0, 24);
@@ -218,6 +246,24 @@ partial class MainForm
             this.toolStrip2.Size = new System.Drawing.Size(1161, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
+            // 
+            // MainMenuAdd
+            // 
+            this.MainMenuAdd.Image = ((System.Drawing.Image)(resources.GetObject("MainMenuAdd.Image")));
+            this.MainMenuAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MainMenuAdd.Name = "MainMenuAdd";
+            this.MainMenuAdd.Size = new System.Drawing.Size(105, 22);
+            this.MainMenuAdd.Text = "Add Transform";
+            this.MainMenuAdd.Click += new System.EventHandler(this.AddTransformation_Click);
+            // 
+            // MainMenuRemove
+            // 
+            this.MainMenuRemove.Image = ((System.Drawing.Image)(resources.GetObject("MainMenuRemove.Image")));
+            this.MainMenuRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MainMenuRemove.Name = "MainMenuRemove";
+            this.MainMenuRemove.Size = new System.Drawing.Size(126, 22);
+            this.MainMenuRemove.Text = "Remove Transform";
+            this.MainMenuRemove.Click += new System.EventHandler(this.RemoveTransformation_Click);
             // 
             // MainMenuStart
             // 
@@ -227,6 +273,15 @@ partial class MainForm
             this.MainMenuStart.Size = new System.Drawing.Size(51, 22);
             this.MainMenuStart.Text = "Start";
             this.MainMenuStart.Click += new System.EventHandler(this.Start_Click);
+            // 
+            // MainMenuStep
+            // 
+            this.MainMenuStep.Image = ((System.Drawing.Image)(resources.GetObject("MainMenuStep.Image")));
+            this.MainMenuStep.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MainMenuStep.Name = "MainMenuStep";
+            this.MainMenuStep.Size = new System.Drawing.Size(98, 22);
+            this.MainMenuStep.Text = "Step Through";
+            this.MainMenuStep.Click += new System.EventHandler(this.Step_Click);
             // 
             // menuStrip1
             // 
@@ -262,6 +317,7 @@ partial class MainForm
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -298,18 +354,21 @@ partial class MainForm
             this.openTransformationListToolStripMenuItem.Name = "openTransformationListToolStripMenuItem";
             this.openTransformationListToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.openTransformationListToolStripMenuItem.Text = "Open &Transformation List...";
+            this.openTransformationListToolStripMenuItem.Click += new System.EventHandler(this.openTransformationListToolStripMenuItem_Click);
             // 
             // saveTransformationListToolStripMenuItem
             // 
             this.saveTransformationListToolStripMenuItem.Name = "saveTransformationListToolStripMenuItem";
             this.saveTransformationListToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.saveTransformationListToolStripMenuItem.Text = "Save Transformation List";
+            this.saveTransformationListToolStripMenuItem.Click += new System.EventHandler(this.saveTransformationListToolStripMenuItem_Click);
             // 
             // saveTransformationListAsToolStripMenuItem
             // 
             this.saveTransformationListAsToolStripMenuItem.Name = "saveTransformationListAsToolStripMenuItem";
             this.saveTransformationListAsToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.saveTransformationListAsToolStripMenuItem.Text = "Save Transformation List As...";
+            this.saveTransformationListAsToolStripMenuItem.Click += new System.EventHandler(this.saveTransformationListAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -333,45 +392,13 @@ partial class MainForm
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // backgroundWorker1
             // 
             this.backgroundWorker1.WorkerReportsProgress = true;
-            // 
-            // MainMenuStep
-            // 
-            this.MainMenuStep.Image = ((System.Drawing.Image)(resources.GetObject("MainMenuStep.Image")));
-            this.MainMenuStep.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MainMenuStep.Name = "MainMenuStep";
-            this.MainMenuStep.Size = new System.Drawing.Size(98, 22);
-            this.MainMenuStep.Text = "Step Through";
-            this.MainMenuStep.Click += new System.EventHandler(this.Step_Click);
-            // 
-            // Typename
-            // 
-            this.Typename.DataPropertyName = "TypeName";
-            this.Typename.HeaderText = "";
-            this.Typename.Name = "Typename";
-            // 
-            // Pattern
-            // 
-            this.Pattern.DataPropertyName = "Pattern";
-            this.Pattern.HeaderText = "Pattern";
-            this.Pattern.Name = "Pattern";
-            // 
-            // Replacement
-            // 
-            this.Replacement.DataPropertyName = "Replacement";
-            this.Replacement.HeaderText = "Replacement";
-            this.Replacement.Name = "Replacement";
-            // 
-            // Applied
-            // 
-            this.Applied.HeaderText = "Applied";
-            this.Applied.Name = "Applied";
-            this.Applied.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -440,4 +467,6 @@ partial class MainForm
     private DataGridViewTextBoxColumn Pattern;
     private DataGridViewTextBoxColumn Replacement;
     private DataGridViewCheckBoxColumn Applied;
+    private ToolStripButton MainMenuAdd;
+    private ToolStripButton MainMenuRemove;
 }

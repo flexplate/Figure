@@ -1,6 +1,8 @@
-﻿namespace Figure
+﻿using System.Runtime.Serialization;
+
+namespace Figure
 {
-    public interface ITransformation
+    public interface ITransformation : ISerializable
     {
         #region Fields
 
@@ -25,6 +27,16 @@
         #region Methods
 
         public string Transform(string input);
+
+        /// <summary>
+        /// Default serialization implementation
+        /// </summary>
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Pattern", Pattern);
+            info.AddValue("Replacement", Replacement);
+
+        }
 
         #endregion Methods
     }

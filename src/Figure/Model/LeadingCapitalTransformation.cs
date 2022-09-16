@@ -1,19 +1,26 @@
 ﻿using System.Globalization;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Figure
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class LeadingCapitalTransformation : ITransformation
     {
         private static string typeName = "Initial leading capital case transformation";
         private static string helpText = "All strings matching the regular expression pattern will be transformed to title case.";
         private static bool useReplacementProperty = false;
 
+        
         public virtual bool UseReplacementProperty => useReplacementProperty;
         public virtual string TypeName => typeName;
         public virtual string HelpText => helpText;
 
         public bool Applied { get; set; }
+
+        [JsonProperty]
         public string Pattern { get; set; }
 
         /// <summary>

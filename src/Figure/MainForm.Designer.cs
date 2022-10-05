@@ -213,6 +213,7 @@ partial class MainForm
             this.textEditBox.Location = new System.Drawing.Point(0, 0);
             this.textEditBox.Multiline = true;
             this.textEditBox.Name = "textEditBox";
+            this.textEditBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textEditBox.Size = new System.Drawing.Size(766, 476);
             this.textEditBox.TabIndex = 0;
             this.textEditBox.TextChanged += new System.EventHandler(this.textEditBox_TextChanged);
@@ -380,6 +381,7 @@ partial class MainForm
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -392,7 +394,7 @@ partial class MainForm
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 

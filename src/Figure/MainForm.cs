@@ -221,4 +221,14 @@ public partial class MainForm : Form
     {
         new AboutBox1().ShowDialog();
     }
+
+    private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if ((UnsavedTextChanges | UnsavedListChanges ) 
+            && MessageBox.Show("You have unsaved text changes. Continue?", "Unsaved changes", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+        {
+            return;
+        }
+        Environment.Exit(0);
+    }
 }

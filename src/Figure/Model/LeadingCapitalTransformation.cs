@@ -1,8 +1,7 @@
-﻿using System.Globalization;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Figure
 {
@@ -13,7 +12,7 @@ namespace Figure
         private static string helpText = "All strings matching the regular expression pattern will be transformed to title case.";
         private static bool useReplacementProperty = false;
 
-        
+
         public virtual bool UseReplacementProperty => useReplacementProperty;
         public virtual string TypeName => typeName;
         public virtual string HelpText => helpText;
